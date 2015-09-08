@@ -1,0 +1,20 @@
+# Redis Server
+redis:
+  image: redis
+  volumes:
+    - /mydir/database/redis/data:/data
+  restart: always
+#wechat app
+wx:
+  image: ynuae/wx-ent-profile
+  ports:
+    - "35006:18080"
+  links:
+    - redis:redis
+  environment:
+    - QYH_CORPID=my_corpId
+    - QYH_SECRET=my_secret
+    - PROFILE_TOKEN=app_token
+    - PROFILE_AESKEY=app_aeskey
+    - PROFILE_AGENTID=4
+  restart: always
