@@ -82,7 +82,7 @@ var EventHandlers = {
      * @return {[type]}
      */
 	'base_mobile': function (msg, req, res, next) {
-        var wxapi = require('wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
+        var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
         wxapi.getUser(msg.FromUserName, function (user, err) {
             if(err || user.errcode !== 0){
                 res.reply('发生错误，请将错误代码发给管理员：' + user.errcode);
