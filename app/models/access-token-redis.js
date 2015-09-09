@@ -28,7 +28,7 @@ var At = function (host, port, appId, expire) {
     });
     client.set('test','dred@at');
     client.get('test', function (err, val) {
-        res.reply('ok' + val);
+        console.log('ok' + val);
     });
 
     this.client = client;
