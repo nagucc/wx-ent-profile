@@ -17,4 +17,5 @@ wx:
     - PROFILE_TOKEN=app_token
     - PROFILE_AESKEY=app_aeskey
     - PROFILE_AGENTID=4
+    - REDIS_HOST=redis
   restart: always
