@@ -83,7 +83,7 @@ var EventHandlers = {
      */
 	'base_mobile': function (msg, req, res, next) {
         // var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
-        // wxapi.getUser(msg.FromUserName, function (user, err) {
+        // wxapi.getUser(msg.FromUserName, function (err, user) {
         //     if(err || user.errcode !== 0){
         //         res.reply('发生错误，请将错误代码发给管理员：' + user.errcode);
         //     } else {
@@ -96,7 +96,7 @@ var EventHandlers = {
             console.log("Error@profile " + err);
         });
         client.set('test','dred');
-        client.get('test', function (val, err) {
+        client.get('test', function (err, val) {
             res.reply('ok' + val);
         });
         
