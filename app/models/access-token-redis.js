@@ -18,7 +18,7 @@ var At = function (host, port, appId, expire) {
 
     var client = redis.createClient(this.port, this.host, {});
     client.on("error", function (err) {
-        console.log("Error " + err);
+        console.log("Error@at " + err);
     });
     this.client = client;
 };
