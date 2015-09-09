@@ -21,8 +21,7 @@ var At = function (host, port, appId, expire) {
     //     console.log("Error@at " + err);
     // });
 
-    var redis = require('redis'),
-     client = redis.createClient(6379, 'redis', {});
+    var client = redis.createClient(6379, 'redis', {});
     client.on("error", function (err) {
         console.log("Error@profile " + err);
     });
@@ -40,13 +39,13 @@ var At = function (host, port, appId, expire) {
 At.prototype.getToken = function (callback) {
     var self = this;
     self.client.get(self.appId +'.expire', function(err, date){
-        if(err || !date) callback('err');            
+        if(err) callback(err);            
         else if(moment().isBefore(date)) {                                // 还在有效期内
             self.client.get(self.appId + '.token', function(err, token){
                 if(err || !token) callback('error');
                 else callback(err, token);
             });
-        } else callback('err');
+        } else callback('AccessToken: something errors happened.');
     });
 };
 
