@@ -5,7 +5,7 @@ redis:
     - /mydir/database/redis/data:/data
   restart: always
 #wechat app
-wx:
+profile:
   image: nagucc/wx-ent-profile
   ports:
     - "35007:18080"

@@ -23,6 +23,8 @@ var wxcfg = {
     agentId: config.profile.agentId
 };
 
+console.log('redis host:' + config.redis.host);
+
 var wxapi = require('wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
 
     
