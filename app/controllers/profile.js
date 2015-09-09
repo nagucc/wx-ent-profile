@@ -6,11 +6,11 @@ var express = require('express'),
     router = express.Router();
 var wxent = require('wechat-enterprise');
 var config = require('../../config/config');
-var redis = require('redis'),
-	client = redis.createClient(6379, 'redis', {});
-client.on("error", function (err) {
-    console.log("Error@profile " + err);
-});
+// var redis = require('redis'),
+// 	client = redis.createClient(6379, 'redis', {});
+// client.on("error", function (err) {
+//     console.log("Error@profile " + err);
+// });
 
 var EventProxy = require('eventproxy');
     
