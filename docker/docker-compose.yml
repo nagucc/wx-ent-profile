@@ -6,9 +6,9 @@ redis:
   restart: always
 #wechat app
 wx:
-  image: ynuae/wx-ent-profile
+  image: nagucc/wx-ent-profile
   ports:
-    - "35006:18080"
+    - "35007:18080"
   links:
     - redis:redis
   environment:

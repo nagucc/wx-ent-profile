@@ -5,7 +5,6 @@
 var express = require('express'),
     router = express.Router();
 var wxent = require('wechat-enterprise');
-var Notice = require('ynu-notice');
 var config = require('../../config/config');
 var redis = require('redis'),
 	client = redis.createClient(6379, 'redis', {});
@@ -80,24 +79,31 @@ var EventHandlers = {
      * @param  {Function}
      * @return {[type]}
      */
-	// 'base_mobile': function (msg, req, res, next) {
-	// },
+	'base_mobile': function (msg, req, res, next) {
+        wxapi.getUser(msg.FromUserName, function (user, err) {
+            if(err || user.errcode !== 0){
+                res.reply('发生错误，请将错误代码发给管理员：' + user.errcode);
+            } else {
+                res.reply('您当前登记的手机号是：' + user.mobile);
+            }
+        });
+	},
 
- //    'base_email': function (msg, req, res, next) {
+    'base_email': function (msg, req, res, next) {
         
- //    },
+    },
 
- //    'base_avator': function (msg, req, res, next) {
+    'base_avator': function (msg, req, res, next) {
         
- //    },
+    },
 
- //    'person_ykt': function (msg, req, res, next) {
+    'person_ykt': function (msg, req, res, next) {
         
- //    },
+    },
 
- //    'person_sfz': function (msg, req, res, next) {
+    'person_sfz': function (msg, req, res, next) {
         
- //    }
+    }
 
 };
 
