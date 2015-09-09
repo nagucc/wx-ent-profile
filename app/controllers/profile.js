@@ -82,14 +82,24 @@ var EventHandlers = {
      * @return {[type]}
      */
 	'base_mobile': function (msg, req, res, next) {
-        var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
-        wxapi.getUser(msg.FromUserName, function (user, err) {
-            if(err || user.errcode !== 0){
-                res.reply('发生错误，请将错误代码发给管理员：' + user.errcode);
-            } else {
-                res.reply('您当前登记的手机号是：' + user.mobile);
-            }
+        // var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
+        // wxapi.getUser(msg.FromUserName, function (user, err) {
+        //     if(err || user.errcode !== 0){
+        //         res.reply('发生错误，请将错误代码发给管理员：' + user.errcode);
+        //     } else {
+        //         res.reply('您当前登记的手机号是：' + user.mobile);
+        //     }
+        // });
+        var redis = require('redis'),
+         client = redis.createClient(6379, 'redis', {});
+        client.on("error", function (err) {
+            console.log("Error@profile " + err);
         });
+        client.set('test','dred');
+        client.get('test', function (val, err) {
+            res.reply('ok' + val);
+        });
+        
 	},
 
     'base_email': function (msg, req, res, next) {

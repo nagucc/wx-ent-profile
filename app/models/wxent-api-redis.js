@@ -9,8 +9,6 @@ var Wxapi = function () {
     this.at = new AccessToken();
 };
 module.exports = function (corpId, secret, agentId, redis_host, redis_port) {
-    redis_host = redis_host || 'localhost';
-    redis_port = redis_port || 6379;
     var at = new AccessToken(redis_host, redis_port, corpId, 7000);
 
     var wxapi = new API(corpId, secret, agentId,
