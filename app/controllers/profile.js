@@ -90,15 +90,7 @@ var EventHandlers = {
                 res.reply('您当前登记的手机号是：' + user.mobile);
             }
         });
-        // var redis = require('redis'),
-        //  client = redis.createClient(6379, 'redis', {});
-        // client.on("error", function (err) {
-        //     console.log("Error@profile " + err);
-        // });
-        // client.set('test','dred');
-        // client.get('test', function (err, val) {
-        //     res.reply('ok' + val);
-        // });
+        
         
 	},
 

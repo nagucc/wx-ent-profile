@@ -16,10 +16,21 @@ var At = function (host, port, appId, expire) {
     this.appId = appId;
     this.expire = expire;
 
-    var client = redis.createClient(this.port, this.host, {});
+    // var client = redis.createClient(this.port, this.host, {});
+    // client.on("error", function (err) {
+    //     console.log("Error@at " + err);
+    // });
+
+    var redis = require('redis'),
+     client = redis.createClient(6379, 'redis', {});
     client.on("error", function (err) {
-        console.log("Error@at " + err);
+        console.log("Error@profile " + err);
     });
+    client.set('test','dred@at');
+    client.get('test', function (err, val) {
+        res.reply('ok' + val);
+    });
+
     this.client = client;
 };
 
