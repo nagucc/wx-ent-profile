@@ -37,7 +37,7 @@ At.prototype.getToken = function (callback) {
     self.client.get(self.appId +'.expire', function(err, date){
         if(err) callback(err);
         else if(!date) callback(null, null);            
-        else if(moment().isBefore(date)) {                                // 还在有效期内
+        else if(moment().isBefore(moment(date)) {                                // 还在有效期内
             self.client.get(self.appId + '.token', function(err, token){
                 if(err || !token) callback('error');
                 else callback(err, token);
