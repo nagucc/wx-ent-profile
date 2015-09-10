@@ -56,7 +56,8 @@ At.prototype.saveToken = function (token, callback) {
     console.log('token will save: ' + token)
     self.client.set(self.appId + '.token', token);
     self.client.set(self.appId + '.expire', moment().add(self.expire, 's'));
-    callback(null, JSON.stringify(token));
+    console.log(JSON.stringify(token));
+    callback(null, token);
 }
 
 module.exports = At;
