@@ -42,7 +42,7 @@ At.prototype.getToken = function (callback) {
             self.client.get(self.appId + '.token', function(err, token){
                 if(err || !token) callback(err);
                 else {
-                    console.log('token:' + JSON.stringify());
+                    console.log('token:' + JSON.stringify(token));
                     callback(err, token);
                 }
             });
@@ -53,10 +53,9 @@ At.prototype.getToken = function (callback) {
 At.prototype.saveToken = function (token, callback) {
     var self = this;
     self.expire = self.expire || 7000;
-    console.log('token will save: ' + token)
+    console.log('token will save: ' + JSON.stringify(token))
     self.client.set(self.appId + '.token', token);
     self.client.set(self.appId + '.expire', moment().add(self.expire, 's'));
-    console.log(JSON.stringify(token));
     callback(null, token);
 }
 
