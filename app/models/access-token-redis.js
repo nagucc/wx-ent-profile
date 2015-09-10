@@ -53,7 +53,7 @@ At.prototype.getToken = function (callback) {
 At.prototype.saveToken = function (token, callback) {
     var self = this;
     self.expire = self.expire || 7000;
-    
+    console.log('token will save: ' + token)
     self.client.set(self.appId + '.token', token);
     self.client.set(self.appId + '.expire', moment().add(self.expire, 's'));
     callback(null, token);
