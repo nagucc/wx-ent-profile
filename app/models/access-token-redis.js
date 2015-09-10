@@ -25,10 +25,6 @@ var At = function (host, port, appId, expire) {
     client.on("error", function (err) {
         console.log("Error@profile " + err);
     });
-    client.set('test','dred@at');
-    client.get('test', function (err, val) {
-        console.log('ok' + val);
-    });
 
     this.client = client;
 };
@@ -39,7 +35,8 @@ var At = function (host, port, appId, expire) {
 At.prototype.getToken = function (callback) {
     var self = this;
     self.client.get(self.appId +'.expire', function(err, date){
-        if(err) callback(err);            
+        if(err) callback(err);
+        else if(!date) callback(null, null);            
         else if(moment().isBefore(date)) {                                // 还在有效期内
             self.client.get(self.appId + '.token', function(err, token){
                 if(err || !token) callback('error');
