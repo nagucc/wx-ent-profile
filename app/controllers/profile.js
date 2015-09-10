@@ -85,9 +85,10 @@ var EventHandlers = {
         var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
         wxapi.getUser(msg.FromUserName, function (err, user) {
             if(err || user.errcode !== 0){
-                res.reply('发生错误，请将错误代码发给管理员2：' + err);
+                res.reply('发生错误，请将错误代码发给管理员：' + err);
             } else {
-                res.reply('您当前登记的手机号是：' + user.mobile);
+                req.wxsession.base_mobile = true;
+                res.reply('您当前登记的手机号是：' + user.mobile + '。\n如需更新手机号码，请回复新手机号码。');
             }
         });  
 	},
@@ -111,6 +112,17 @@ var EventHandlers = {
 };
 
 var TextProcessHandlers = {
+    'base_mobile': function (msg, req, res, next) {
+        var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
+        wxapi.updateUser({ userid: msg.FromUserName, mobile: msg.Content }, function (err, user) {
+            if(err || user.errcode !== 0){
+                res.reply('发生错误：' + err);
+            } else {
+                delete req.wxsession.base_mobile;
+                res.reply('更新成功');
+            }
+        });  
+    }
 };
 
 
