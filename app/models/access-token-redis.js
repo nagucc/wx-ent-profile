@@ -46,7 +46,7 @@ At.prototype.getToken = function (callback) {
                     callback(err, token);
                 }
             });
-        } else callback('AccessToken: something errors happened.');
+        } else callback(null, null);
     });
 };
 
