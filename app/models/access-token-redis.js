@@ -42,7 +42,7 @@ At.prototype.getToken = function (callback) {
             self.client.get(self.appId + '.token', function(err, token){
                 if(err || !token) callback(err);
                 else {
-                    console.log('token:' + token);1
+                    console.log('token:' + JSON.stringify());
                     callback(err, token);
                 }
             });
