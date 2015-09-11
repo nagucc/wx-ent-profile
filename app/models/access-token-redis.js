@@ -36,7 +36,7 @@ At.prototype.getToken = function (callback) {
     var self = this;
     self.client.get(self.appId +'.expire', function(err, date){
         if(err) callback(err);                                                      // redis 发生错误
-        else if(date && moment().isBefore(moment(date, 'yyyy-M-d H:m:s'))) {        // 还在有效期内
+        else if(date && moment().isBefore(moment(date, 'YYYY-MM-DD HH:mm:ss'))) {        // 还在有效期内
             console.log('date: ' + date);
             self.client.get(self.appId + '.token', function(err, token){
                 if(err || !token) callback(err || 'token is not valid');
@@ -54,8 +54,8 @@ At.prototype.saveToken = function (token, callback) {
     self.expire = self.expire || 7000;
     console.log('token will save: ' + JSON.stringify(token))
     self.client.set(self.appId + '.token', JSON.stringify(token));
-    self.client.set(self.appId + '.expire', moment().add(self.expire, 's').format('yyyy-M-d H:m:s'));
-    console.log('expire date: ' + moment().add(self.expire, 's').format('yyyy-M-d H:m:s'));
+    self.client.set(self.appId + '.expire', moment().add(self.expire, 's').format('YYYY-MM-DD HH:mm:ss'));
+    console.log('expire date: ' + moment().add(self.expire, 's').format('YYYY-MM-DD HH:mm:ss'));
     callback(null, token);
 }
 
