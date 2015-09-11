@@ -23,7 +23,6 @@ var wxcfg = {
     agentId: config.profile.agentId
 };
 
-console.log('redis host:' + config.redis.host);
 
 //
 
@@ -87,7 +86,7 @@ var EventHandlers = {
             if(err || user.errcode !== 0){
                 res.reply('发生错误，请将错误代码发给管理员：' + err);
             } else {
-                req.wxsession.base_mobile = true;
+                req.wxsession.process = 'base_mobile';
                 res.reply('您当前登记的手机号是：' + user.mobile + '。\n如需更新手机号码，请回复新手机号码。');
             }
         });  
@@ -118,7 +117,7 @@ var TextProcessHandlers = {
             if(err || user.errcode !== 0){
                 res.reply('发生错误：' + err);
             } else {
-                delete req.wxsession.base_mobile;
+                delete req.wxsession.process;
                 res.reply('更新成功');
             }
         });  
@@ -131,6 +130,6 @@ module.exports = function (app, cfg) {
     // app.use(express.query());
     app.use('/profile', router);
 
-    router.use('/', wxent(wxcfg, wxent.event(handleEvent(EventHandlers)).text(handleText(TextProcessHandlers))));
+    router.use('/', wxent(wxcfg, wxent.event(handleEvent(EventHandlers)).text(handleText(TextProcessHandlers, 'process'))));
     
 };
