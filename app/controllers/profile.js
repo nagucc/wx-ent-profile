@@ -131,6 +131,6 @@ module.exports = function (app, cfg) {
     // app.use(express.query());
     app.use('/profile', router);
 
-    router.use('/', wxent(wxcfg, wxent.event(handleEvent(EventHandlers))));
+    router.use('/', wxent(wxcfg, wxent.event(handleEvent(EventHandlers)).text(handleText(textHandlers))));
     
 };
