@@ -86,13 +86,21 @@ var EventHandlers = {
                 res.reply('发生错误，请将错误代码发给管理员：' + err);
             } else {
                 req.wxsession.process = 'base_mobile';
-                res.reply('您当前登记的手机号是：' + user.mobile + '。\n如需更新手机号码，请回复新手机号码。');
+                res.reply('您登记的手机号是：' + user.mobile + '。\n如需更新手机号码，请回复新手机号码。');
             }
         });  
 	},
 
     'base_email': function (msg, req, res, next) {
-        
+        var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
+        wxapi.getUser(msg.FromUserName, function (err, user) {
+            if(err || user.errcode !== 0){
+                res.reply('发生错误，请将错误代码发给管理员：' + err);
+            } else {
+                req.wxsession.process = 'base_email';
+                res.reply('您登记的邮箱是：' + user.email + '。\n如需更新，请回复新的邮箱地址。');
+            }
+        });  
     },
 
     'base_avator': function (msg, req, res, next) {
@@ -100,7 +108,20 @@ var EventHandlers = {
     },
 
     'person_ykt': function (msg, req, res, next) {
-        
+        var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
+        wxapi.getUser(msg.FromUserName, function (err, user) {
+            if(err || user.errcode !== 0){
+                res.reply('发生错误，请将错误代码发给管理员：' + err);
+            } else {
+                req.wxsession.process = 'person_ykt';
+
+                var ykt = '';
+                user.extattr.attrs.forEach(function (attr) {
+                    if(attr.name === '一卡通号') ykt = attr.value;
+                });
+                res.reply('您登记的一卡通号是：' + ykt + '。\n如需更新，请回复新的一卡通号。');
+            }
+        });
     },
 
     'person_sfz': function (msg, req, res, next) {
@@ -123,6 +144,21 @@ var TextProcessHandlers = {
                 res.reply('更新成功');
             }
         });  
+    },
+
+    'person_ykt': function (msg, req, res, next) {
+        var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
+        wxapi.updateUser({ userid: msg.FromUserName, extattr: {attrs[name:'一卡通号', value: msg.Content]} }, function (err, user) {
+            if(err){
+                if (user && user.errcode !== 0) {
+                    res.reply('更新失败：' + wxerrmsg[user.errcode]);
+                } else
+                    res.reply('发生错误:' + err);
+            } else {
+                delete req.wxsession.process;
+                res.reply('更新成功');
+            }
+        }); 
     }
 };
 
@@ -133,5 +169,4 @@ module.exports = function (app, cfg) {
     app.use('/profile', router);
 
     router.use('/', wxent(wxcfg, wxent.event(handleEvent(EventHandlers)).text(handleText(TextProcessHandlers, 'process'))));
-    
 };
