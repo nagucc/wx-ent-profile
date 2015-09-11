@@ -114,9 +114,10 @@ var TextProcessHandlers = {
         var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
         wxapi.updateUser({ userid: msg.FromUserName, mobile: msg.Content }, function (err, user) {
             if(err){
-                res.reply('发生错误:' + err);
-            } else if (user.errcode !== 0) {
-                res.reply('更新失败：' + wxerrmsg[user.errcode]);
+                if (user && user.errcode !== 0) {
+                    res.reply('更新失败：' + wxerrmsg[user.errcode]);
+                } else
+                    res.reply('发生错误:' + err);
             } else {
                 delete req.wxsession.process;
                 res.reply('更新成功');
