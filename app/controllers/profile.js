@@ -73,11 +73,6 @@ var handleText = function (textHandlers, sessionName) {
 var EventHandlers = {
     
     /** 修改手机号码
-     * @param  {[type]}
-     * @param  {[type]}
-     * @param  {[type]}
-     * @param  {Function}
-     * @return {[type]}
      */
 	'base_mobile': function (msg, req, res, next) {
         var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
@@ -108,20 +103,6 @@ var EventHandlers = {
     },
 
     'person_ykt': function (msg, req, res, next) {
-        var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
-        wxapi.getUser(msg.FromUserName, function (err, user) {
-            if(err || user.errcode !== 0){
-                res.reply('发生错误，请将错误代码发给管理员：' + err);
-            } else {
-                req.wxsession.process = 'person_ykt';
-
-                var ykt = '';
-                user.extattr.attrs.forEach(function (attr) {
-                    if(attr.name === '一卡通号') ykt = attr.value;
-                });
-                res.reply('您登记的一卡通号是：' + ykt + '。\n如需更新，请回复新的一卡通号。');
-            }
-        });
     },
 
     'person_sfz': function (msg, req, res, next) {
@@ -147,18 +128,6 @@ var TextProcessHandlers = {
     },
 
     'person_ykt': function (msg, req, res, next) {
-        var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
-        wxapi.updateUser({ userid: msg.FromUserName, extattr: {attrs[name:'一卡通号', value: msg.Content]} }, function (err, user) {
-            if(err){
-                if (user && user.errcode !== 0) {
-                    res.reply('更新失败：' + wxerrmsg[user.errcode]);
-                } else
-                    res.reply('发生错误:' + err);
-            } else {
-                delete req.wxsession.process;
-                res.reply('更新成功');
-            }
-        }); 
     }
 };
 
