@@ -21,7 +21,7 @@ var At = function (host, port, appId, expire) {
     //     console.log("Error@at " + err);
     // });
 
-    var client = redis.createClient(6379, 'redis', {});
+    var client = redis.createClient(this.port, this.host, {});
     client.on("error", function (err) {
         console.log("Error@profile " + err);
     });
