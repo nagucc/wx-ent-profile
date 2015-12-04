@@ -16,7 +16,7 @@ var config = require('../../config/config');
 var EventProxy = require('eventproxy');
 
 var util = require('util');
-    
+
 
 var wxcfg = {
     token: config.profile.token,
@@ -129,7 +129,7 @@ var EventHandlers = {
         var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
         wxapi.getUser(msg.FromUserName, function (err, user) {
             EventHandlers.post_process(err, user, res, req, 'base_mobile', 'mobile', '手机号码');
-        });  
+        });
 	},
 
     /**
@@ -139,7 +139,7 @@ var EventHandlers = {
         var wxapi = require('../models/wxent-api-redis')(wxcfg.corpId, wxcfg.secret, wxcfg.agentId, config.redis.host, config.redis.port);
         wxapi.getUser(msg.FromUserName, function (err, user) {
             EventHandlers.post_process(err, user, res, req, 'base_email', 'email', '电子邮件');
-        });  
+        });
     },
 
     /**
@@ -392,6 +392,6 @@ var TextProcessHandlers = {
 
 module.exports = function (app, cfg) {
     // app.use(express.query());
-    app.use('/profile', router);
+    app.use('/', router);
     router.use('/', wxent(wxcfg, wxent.event(handleEvent(EventHandlers)).text(handleText(TextProcessHandlers, 'process'))));
 };

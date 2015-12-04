@@ -1,21 +1,21 @@
 # Redis Server
-redis:
+wx_ent_profile_redis:
   image: redis
   volumes:
     - /mydir/database/redis/data:/data
   restart: always
 #wechat app
-profile:
-  image: nagucc/wx-ent-profile
+wx_ent_profile:
+  image: ynuae/wx_ent_profile
   ports:
-    - "35007:18080"
+    - "50003:18080"
   links:
-    - redis:redis
+    - wx_ent_profile_redis:redis
   environment:
-    - QYH_CORPID=my_corpId
-    - QYH_SECRET=my_secret
-    - PROFILE_TOKEN=app_token
-    - PROFILE_AESKEY=app_aeskey
-    - PROFILE_AGENTID=4
-    - REDIS_HOST=redis
+    - QYH_CORPID
+    - QYH_SECRET
+    - PROFILE_TOKEN
+    - PROFILE_AESKEY
+    - PROFILE_AGENTID
+    - REDIS_HOST
   restart: always
