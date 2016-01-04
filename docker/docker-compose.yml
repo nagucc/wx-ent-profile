@@ -18,4 +18,5 @@ wx_ent_profile:
     - PROFILE_AESKEY
     - PROFILE_AGENTID
     - REDIS_HOST
+    - REDIS_PORT_MANUAL
   restart: always
